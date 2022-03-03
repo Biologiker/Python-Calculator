@@ -2,6 +2,7 @@ import tkinter
 
 
 def Calculation(Zahl, InputLine, CalcNumber):
+    InputLine.config(state='normal')
     if Zahl == "C":
         InputLine.delete(0, tkinter.END)
         CalcNumber.clear()
@@ -9,12 +10,19 @@ def Calculation(Zahl, InputLine, CalcNumber):
     elif Zahl == "<-":
         InputLine.delete(len(InputLine.get()) - 1)
         if(CalcNumber[-1] != "+" and CalcNumber[-1] != "-" and CalcNumber[-1] != "*" and CalcNumber[-1] != "/"):
-            if(len(str(CalcNumber[-1])) > 1):
+            if(len(str(CalcNumber[-1])) > 3):
                 CalcNumber[-1] = float(str(CalcNumber[-1])[:-1])
+            elif(len(str(CalcNumber[-1])) > 1):
+                CalcNumber[-1] = int(str(CalcNumber[-1])[:-2])
+                InputLine.delete(len(InputLine.get()) - 1)
             else:
                 CalcNumber.pop()
         else:
             CalcNumber.pop()
+    elif Zahl == ",":
+        if(InputLine.get()[-1] != ","):
+            InputLine.insert(tkinter.END, ",")
+            CalcNumber[-1] = CalcNumber[-1] + str(".")
 
     elif Zahl != "=":
         if(Zahl == "+" or Zahl == "*" or Zahl == "-" or Zahl == "/"):
@@ -35,9 +43,9 @@ def Calculation(Zahl, InputLine, CalcNumber):
         else:
             if(CalcNumber):
                 if(CalcNumber[-1] != "+" and CalcNumber[-1] != "-" and CalcNumber[-1] != "*" and CalcNumber[-1] != "/"):
-                    CalcNumber[-1] = CalcNumber[-1] + str(Zahl)
+                    CalcNumber[-1] = str(CalcNumber[-1]) + str(Zahl)
                 elif(CalcNumber[-1] == "-" and len(CalcNumber) == 1):
-                    CalcNumber[-1] = CalcNumber[-1] + str(Zahl)
+                    CalcNumber[-1] = str(CalcNumber[-1]) + str(Zahl)
                 else:
                     CalcNumber.append(str(Zahl))
             else:
@@ -130,4 +138,5 @@ def Calculation(Zahl, InputLine, CalcNumber):
                         InputLine.insert(tkinter.END, i)
 
     print(CalcNumber)
+    InputLine.config(state='readonly')
     return CalcNumber

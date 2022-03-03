@@ -13,12 +13,15 @@ InputLine = tkinter.Entry(
     text="Relative placement"
 )
 InputLine.place(relx=1, y=2, relwidth=1, relheight=0.09, anchor='ne')
+InputLine.config(state='readonly')
 
 Button1 = tkinter.Button(
     text="1",
     command=lambda: Calculation(1, InputLine, CalcNumber)
 )
 Button1.place(relx=0.2, rely=0.09, relwidth=0.2, relheight=0.18, anchor='nw')
+Fenster.bind("<KP_1>",
+             lambda event: print("A"))
 
 Button2 = tkinter.Button(
     text="2",
@@ -77,14 +80,21 @@ Button0 = tkinter.Button(
     text="0",
     command=lambda: Calculation(0, InputLine, CalcNumber)
 )
-Button0.place(relx=0.2, rely=0.63, relwidth=0.2,
+Button0.place(relx=0.2, rely=0.63, relwidth=0.4,
               relheight=0.18, anchor='nw')
+
+ButtonComma = tkinter.Button(
+    text=",",
+    command=lambda: Calculation(",", InputLine, CalcNumber)
+)
+ButtonComma.place(relx=0.6, rely=0.63, relwidth=0.2,
+                  relheight=0.18, anchor='nw')
 
 ButtonEqual = tkinter.Button(
     text="=",
     command=lambda: Calculation("=", InputLine, CalcNumber)
 )
-ButtonEqual.place(relx=0.4, rely=0.63, relwidth=0.4,
+ButtonEqual.place(relx=0.6, rely=0.81, relwidth=0.4,
                   relheight=0.18, anchor='nw')
 
 ButtonPlus = tkinter.Button(
