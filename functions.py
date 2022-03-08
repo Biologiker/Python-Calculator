@@ -7,14 +7,22 @@ def Calculation(Zahl, InputLine, CalcNumber):
         InputLine.delete(0, tkinter.END)
         CalcNumber.clear()
 
+    elif Zahl == "(":
+        print("Klammer auf")
+        InputLine.insert(tkinter.END, Zahl)
+        CalcNumber.append(Zahl)
+
+    elif Zahl == ")":
+        print("Klammer zu")
+        InputLine.insert(tkinter.END, Zahl)
+        CalcNumber.append(Zahl)
+
     elif Zahl == "<-":
+
         InputLine.delete(len(InputLine.get()) - 1)
         if(CalcNumber[-1] != "+" and CalcNumber[-1] != "-" and CalcNumber[-1] != "*" and CalcNumber[-1] != "/"):
-            if(len(str(CalcNumber[-1])) > 3):
-                CalcNumber[-1] = float(str(CalcNumber[-1])[:-1])
-            elif(len(str(CalcNumber[-1])) > 1):
-                CalcNumber[-1] = int(str(CalcNumber[-1])[:-2])
-                InputLine.delete(len(InputLine.get()) - 1)
+            if(len(str(CalcNumber[-1])) > 1):
+                CalcNumber[-1] = str(CalcNumber[-1])[:-1]
             else:
                 CalcNumber.pop()
         else:
@@ -40,6 +48,17 @@ def Calculation(Zahl, InputLine, CalcNumber):
                     InputLine.insert(tkinter.END, Zahl)
                     CalcNumber.append(Zahl)
                 print("No number entered yet!")
+        elif(Zahl == "(") or (Zahl == ")"):
+            try:
+                if(CalcNumber[-1] != "(" and CalcNumber[-1] != ")"):
+                    CalcNumber[-1] = CalcNumber[-1] + str(Zahl)
+                    InputLine.insert(tkinter.END, Zahl)
+                else:
+                    CalcNumber.append(Zahl)
+                    InputLine.insert(tkinter.END, Zahl)
+            except IndexError:
+                None
+
         else:
             if(CalcNumber):
                 if(CalcNumber[-1] != "+" and CalcNumber[-1] != "-" and CalcNumber[-1] != "*" and CalcNumber[-1] != "/"):
@@ -52,13 +71,15 @@ def Calculation(Zahl, InputLine, CalcNumber):
                 CalcNumber.append(str(Zahl))
             InputLine.insert(tkinter.END, Zahl)
     else:
-        if len(CalcNumber) == 0:
-            print("Please enter at least two Numbers and an Operator!")
-        elif len(CalcNumber) == 1:
-            print("Please enter at least a second Numbers and an Operator!")
-        elif len(CalcNumber) % 2 == 0:
-            print("Please enter a final number!")
-        else:
+        if(CalcNumber[-1] != "+" and CalcNumber[-1] != "-" and CalcNumber[-1] != "*" and CalcNumber[-1] != "/" and CalcNumber[-1] != "("):
+            if(CalcNumber.count("(") != 0):
+                KlammerAufExists = False
+
+                try:
+                    PostionKlammerAuf = CalcNumber.index("(")
+                except:
+                    KlammerAufExists = True
+
             while (CalcNumber.count("*") != 0 or CalcNumber.count("/") != 0):
                 MultiplyExists = False
                 DivideExists = False
@@ -80,7 +101,7 @@ def Calculation(Zahl, InputLine, CalcNumber):
                     CalcNumber.pop(PostionMultiply - 1)
                     CalcNumber.pop(PostionMultiply - 1)
                     CalcNumber.pop(PostionMultiply - 1)
-                    CalcNumber.insert(PostionMultiply - 1, resultCalc)
+                    CalcNumber.insert(PostionMultiply - 1, str(resultCalc))
 
                     InputLine.delete(0, tkinter.END)
                     for i in CalcNumber:
@@ -92,7 +113,7 @@ def Calculation(Zahl, InputLine, CalcNumber):
                     CalcNumber.pop(PostionDivide - 1)
                     CalcNumber.pop(PostionDivide - 1)
                     CalcNumber.pop(PostionDivide - 1)
-                    CalcNumber.insert(PostionDivide - 1, resultCalc)
+                    CalcNumber.insert(PostionDivide - 1, str(resultCalc))
 
                     InputLine.delete(0, tkinter.END)
                     for i in CalcNumber:
@@ -119,7 +140,7 @@ def Calculation(Zahl, InputLine, CalcNumber):
                     CalcNumber.pop(PostionMultiply - 1)
                     CalcNumber.pop(PostionMultiply - 1)
                     CalcNumber.pop(PostionMultiply - 1)
-                    CalcNumber.insert(PostionMultiply - 1, resultCalc)
+                    CalcNumber.insert(PostionMultiply - 1, str(resultCalc))
 
                     InputLine.delete(0, tkinter.END)
                     for i in CalcNumber:
@@ -131,7 +152,7 @@ def Calculation(Zahl, InputLine, CalcNumber):
                     CalcNumber.pop(PostionDivide - 1)
                     CalcNumber.pop(PostionDivide - 1)
                     CalcNumber.pop(PostionDivide - 1)
-                    CalcNumber.insert(PostionDivide - 1, resultCalc)
+                    CalcNumber.insert(PostionDivide - 1, str(resultCalc))
 
                     InputLine.delete(0, tkinter.END)
                     for i in CalcNumber:
